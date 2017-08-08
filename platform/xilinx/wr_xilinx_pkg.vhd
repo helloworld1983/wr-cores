@@ -106,6 +106,7 @@ package wr_xilinx_pkg is
     port (
       clk_gtx_i      : in  std_logic;
       tx_out_clk_o   : out std_logic;
+      tx_locked_o    : out std_logic;
       tx_data_i      : in  std_logic_vector(15 downto 0);
       tx_k_i         : in  std_logic_vector(1 downto 0);
       tx_disparity_o : out std_logic;
@@ -121,7 +122,8 @@ package wr_xilinx_pkg is
       pad_txn_o      : out std_logic;
       pad_txp_o      : out std_logic;
       pad_rxn_i      : in  std_logic := '0';
-      pad_rxp_i      : in  std_logic := '0');
+      pad_rxp_i      : in  std_logic := '0';
+      rdy_o          : out std_logic);
   end component;
 
 end wr_xilinx_pkg;
