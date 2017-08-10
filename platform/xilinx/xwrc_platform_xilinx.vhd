@@ -410,6 +410,13 @@ begin  -- architecture rtl
           PWRDWN       => '0',
           RST          => pll_arst);
 
+      -- System PLL input clock buffer
+      cmp_clk_sys_buf_i : BUFG
+        port map (
+          O => clk_125m_pllref_buf,
+          I => clk_125m_pllref_i);
+
+
       -- System PLL output clock buffer
       cmp_clk_sys_buf_o : BUFG
         port map (
@@ -417,6 +424,7 @@ begin  -- architecture rtl
           I => clk_sys);
 
       clk_62m5_sys_o <= clk_sys_out;
+      clk_125m_ref_o       <= clk_125m_pllref_buf;
       pll_locked_o   <= pll_sys_locked and pll_dmtd_locked;
 
       -- DMTD PLL (20 MHz -> ~62,5 MHz)
@@ -724,18 +732,12 @@ begin  -- architecture rtl
         I     => clk_125m_gtp_p_i,
         IB    => clk_125m_gtp_n_i);
 
-    -- System PLL input clock buffer
-    cmp_clk_sys_buf_i : BUFG
-      port map (
-        O => clk_125m_pllref_buf,
-        I => clk_125m_gtx_buf);
-
     cmp_gtx: wr_gtx_phy_kintex7
       generic map(
         g_simulation => g_simulation)
       port map(
         clk_gtx_i      => clk_125m_gtx_buf,
-        tx_out_clk_o   => clk_125m_ref_o,
+        tx_out_clk_o   => phy16_o.ref_clk,
         tx_data_i      => phy16_i.tx_data,
         tx_k_i         => phy16_i.tx_k,
         tx_disparity_o => phy16_o.tx_disparity,
@@ -757,7 +759,6 @@ begin  -- architecture rtl
 
         tx_locked_o   => open);
 
-    phy16_o.ref_clk      <= clk_125m_pllref_buf;
     phy16_o.sfp_tx_fault <= sfp_tx_fault_i;
     phy16_o.sfp_los      <= sfp_los_i;
     sfp_tx_disable_o     <= phy16_i.sfp_tx_disable;
