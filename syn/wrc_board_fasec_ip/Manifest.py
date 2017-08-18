@@ -6,7 +6,7 @@ syn_grade = "-2"
 syn_package = "ffg676"
 
 syn_top = "wrc_board_fasec"
-syn_project = "fasec_wr_ref_top"
+syn_project = "wrc_board_fasec_ip"
 
 syn_tool = "vivado"
 
