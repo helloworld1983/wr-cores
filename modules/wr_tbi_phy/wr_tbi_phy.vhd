@@ -66,7 +66,7 @@ end wr_tbi_phy;
 
 architecture rtl of wr_tbi_phy is
 
-  component dec_8b10b
+  component gc_dec_8b10b
     port (
       clk_i       : in  std_logic;
       rst_n_i     : in  std_logic;
@@ -124,7 +124,7 @@ begin  -- rtl
     end if;
   end process;
 
-  U_DEC : dec_8b10b
+  U_DEC : gc_dec_8b10b
     port map (
       clk_i    => tbi_rbclk_i,
       rst_n_i  => rst_synced_rbclk_n,
