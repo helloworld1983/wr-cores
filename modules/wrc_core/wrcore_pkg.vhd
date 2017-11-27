@@ -260,6 +260,8 @@ package wrcore_pkg is
   component wrc_periph is
     generic(
       g_board_name      : string  := "NA  ";
+      g_flash_secsz_kb    : integer := 64;
+      g_flash_sdbfs_baddr : integer := 16#2e0000#;
       g_phys_uart       : boolean := true;
       g_virtual_uart    : boolean := false;
       g_cntr_period     : integer := 62500;
@@ -376,6 +378,8 @@ package wrcore_pkg is
     generic(
       g_simulation                : integer                        := 0;
       g_board_name                : string                         := "NA  ";
+      g_flash_secsz_kb            : integer                        := 256;        -- default for SVEC (M25P128)
+      g_flash_sdbfs_baddr         : integer                        := 16#600000#; -- default for SVEC (M25P128)
       g_phys_uart                 : boolean                        := true;
       g_virtual_uart              : boolean                        := true;
       g_with_external_clock_input : boolean                        := true;
@@ -517,6 +521,8 @@ package wrcore_pkg is
       g_with_external_clock_input : boolean                        := true;
       --
       g_board_name                : string                         := "NA  ";
+      g_flash_secsz_kb            : integer                        := 256;        -- default for SVEC (M25P128)
+      g_flash_sdbfs_baddr         : integer                        := 16#600000#; -- default for SVEC (M25P128)
       g_phys_uart                 : boolean                        := true;
       g_virtual_uart              : boolean                        := true;
       g_aux_clks                  : integer                        := 0;

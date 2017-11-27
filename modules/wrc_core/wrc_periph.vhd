@@ -49,6 +49,8 @@ use work.wrc_diags_wbgen2_pkg.all;
 entity wrc_periph is
   generic(
     g_board_name      : string  := "NA  ";
+    g_flash_secsz_kb    : integer := 256;        -- default for SVEC (M25P128)
+    g_flash_sdbfs_baddr : integer := 16#600000#; -- default for SVEC (M25P128)
     g_phys_uart       : boolean := true;
     g_virtual_uart    : boolean := false;
     g_cntr_period     : integer := 62500;
@@ -191,9 +193,12 @@ begin
   sysc_regs_i.hwfr_memsize_i(3 downto 0) <= f_cnt_memsize(g_mem_words);
 
   -------------------------------------
-  -- BOARD NAME
+  -- BOARD NAME and Flash info
   -------------------------------------
-  sysc_regs_i.hwir_name_i <= f_board_name_conv(g_board_name);
+  sysc_regs_i.hwir_name_i         <= f_board_name_conv(g_board_name);
+  sysc_regs_i.hwfr_storage_sec_i  <= std_logic_vector(to_unsigned(g_flash_secsz_kb, 16));
+  sysc_regs_i.hwfr_storage_type_i <= "00";  -- for now these parameters are only for Flash
+  sysc_regs_i.sdbfs_baddr_i       <= std_logic_vector(to_unsigned(g_flash_sdbfs_baddr, 32));
 
   -------------------------------------
   -- TIMER
