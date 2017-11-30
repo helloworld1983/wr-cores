@@ -121,8 +121,12 @@ entity wrc_board_fasec is
     sfp_rx_p_i         : in  std_logic;
     sfp_rx_n_i         : in  std_logic;
     sfp_det_i         : in  std_logic := '1';
-    sfp_sda_b         : inout std_logic;
-    sfp_scl_b         : inout std_logic;
+    sfp_sda_i         : in  std_logic;
+    sfp_sda_o         : out std_logic;
+    sfp_sda_t         : out std_logic;
+    sfp_scl_i         : in  std_logic;
+    sfp_scl_o         : out std_logic;
+    sfp_scl_t         : out std_logic;
     sfp_rate_select_o : out std_logic;
     sfp_tx_fault_i    : in  std_logic := '0';
     sfp_tx_disable_o  : out std_logic;
@@ -131,13 +135,19 @@ entity wrc_board_fasec is
     ---------------------------------------------------------------------------
     -- I2C EEPROM
     ---------------------------------------------------------------------------
-    eeprom_scl_b : inout std_logic;
-    eeprom_sda_b : inout std_logic;
+    eeprom_sda_i : in  std_logic;
+    eeprom_sda_o : out std_logic;
+    eeprom_sda_t : out std_logic;
+    eeprom_scl_i : in  std_logic;
+    eeprom_scl_o : out std_logic;
+    eeprom_scl_t : out std_logic;
 
     ---------------------------------------------------------------------------
     -- Onewire interface
     ---------------------------------------------------------------------------
-    thermo_id : inout std_logic;
+    thermo_id_i : in  std_logic;
+    thermo_id_o : out std_logic;
+    thermo_id_t : out std_logic;
 
     ---------------------------------------------------------------------------
     -- UART
@@ -475,17 +485,27 @@ begin  -- architecture struct
       sfp_rxp_i            => sfp_rx_p_i,
       sfp_rxn_i            => sfp_rx_n_i,
       sfp_det_i            => sfp_det_i,
-      sfp_sda_b            => sfp_sda_b,
-      sfp_scl_b            => sfp_scl_b,
+      sfp_sda_i            => sfp_sda_i,
+      sfp_sda_o            => sfp_sda_o,
+      sfp_sda_t            => sfp_sda_t,
+      sfp_scl_i            => sfp_scl_i,
+      sfp_scl_o            => sfp_scl_o,
+      sfp_scl_t            => sfp_scl_t,
       sfp_rate_select_o    => sfp_rate_select_o,
       sfp_tx_fault_i       => sfp_tx_fault_i,
       sfp_tx_disable_o     => sfp_tx_disable_o,
       sfp_los_i            => sfp_los_i,
       --
-      eeprom_scl_b         => eeprom_scl_b,
-      eeprom_sda_b         => eeprom_sda_b,
+      eeprom_sda_i => eeprom_sda_i,
+      eeprom_sda_o => eeprom_sda_o,
+      eeprom_sda_t => eeprom_sda_t,
+      eeprom_scl_i => eeprom_scl_i,
+      eeprom_scl_o => eeprom_scl_o,
+      eeprom_scl_t => eeprom_scl_t,
       --
-      thermo_id            => thermo_id,
+      thermo_id_i  => thermo_id_i,
+      thermo_id_o  => thermo_id_o,
+      thermo_id_t  => thermo_id_t,
       --
       uart_rxd_i           => uart_rxd_i,
       uart_txd_o           => uart_txd_o,
