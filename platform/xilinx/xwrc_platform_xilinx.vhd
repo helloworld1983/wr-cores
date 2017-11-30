@@ -85,8 +85,10 @@ entity xwrc_platform_xilinx is
     ---------------------------------------------------------------------------
     -- 20MHz VCXO clock
     clk_20m_vcxo_i        : in  std_logic             := '0';
-    -- 125 MHz PLL reference
+    -- 125.000 MHz PLL reference
     clk_125m_pllref_i     : in  std_logic             := '0';
+    -- 124.992 MHz DMTD reference (CLBv3 reference design)
+    clk_125m_dmtd_i       : in  std_logic             := '0';
     ---------------------------------------------------------------------------
     -- Clock inputs from custom PLLs (g_use_default_plls = FALSE)
     ---------------------------------------------------------------------------
@@ -151,7 +153,7 @@ begin  -- architecture rtl
   -----------------------------------------------------------------------------
   -- Check for unsupported features and/or misconfiguration
   -----------------------------------------------------------------------------
-  gen_unknown_fpga : if (g_fpga_family /= "spartan6" and g_fpga_family /= "kintex7") generate
+  gen_unknown_fpga : if (g_fpga_family /= "spartan6" and g_fpga_family /= "kintex7" and g_fpga_family /= "artix7") generate
     assert FALSE
       report "Xilinx FPGA family [" & g_fpga_family & "] is not supported"
       severity ERROR;
@@ -579,7 +581,7 @@ begin  -- architecture rtl
       signal clk_sys_out      : std_logic;
       signal clk_sys_fb       : std_logic;
       signal pll_sys_locked   : std_logic;
---      signal clk_dmtd         : std_logic;
+      signal clk_dmtd         : std_logic := '0'; -- initialize for simulation
 --      signal clk_dmtd_fb      : std_logic;
 --      signal pll_dmtd_locked  : std_logic;
 --      signal clk_20m_vcxo_buf : std_logic;
@@ -701,11 +703,20 @@ begin  -- architecture rtl
 --          O => clk_20m_vcxo_buf,
 --          I => clk_20m_vcxo_i);
 --
---      -- DMTD PLL output clock buffer
---      cmp_clk_dmtd_buf_o : BUFG
---        port map (
---          O => clk_62m5_dmtd_o,
---          I => clk_dmtd);
+
+      -- DMTD Div2 (124.9920 MHz -> 62,496 MHz)
+      process(clk_125m_dmtd_i)
+      begin
+        if rising_edge(clk_125m_dmtd_i) then
+          clk_dmtd <= not clk_dmtd;
+        end if;
+      end process;
+
+      -- DMTD PLL output clock buffer
+      cmp_clk_dmtd_buf_o : BUFG
+        port map (
+          O => clk_62m5_dmtd_o,
+          I => clk_dmtd);
 
       -- External 10MHz reference PLL for Artix7
       gen_artix7_ext_ref_pll : if (g_with_external_clock_input = TRUE) generate
