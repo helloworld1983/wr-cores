@@ -87,7 +87,6 @@ entity wrc_board_clbv3 is
     -- reset PLLs.
     areset_edge_n_i     : in  std_logic := '1';
     -- Clock inputs from the board
---    clk_20m_vcxo_i      : in  std_logic;
     clk_125m_dmtd_p_i : in  std_logic;
     clk_125m_dmtd_n_i : in  std_logic;
     clk_125m_gtp_n_i    : in  std_logic;
