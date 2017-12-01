@@ -101,56 +101,56 @@ NET "reset_i"      LOC = E11 | IOSTANDARD = LVCMOS33;    #Bank 16 VCCO - 3.3 V -
 
 #   -- Clock input from LEMO 5 on the mezzanine front panel. Used as 10MHz
 #   -- external reference input.
-NET "dio_clk_p_i" LOC = Y22       | IOSTANDARD=LVDS_25;  #CLK1_M2C_P L20
-NET "dio_clk_n_i" LOC = AA22      | IOSTANDARD=LVDS_25;  #CLK1_M2C_N L22
+NET "dio_clk_p_i" LOC = Y22       | IOSTANDARD=LVDS_25;  #CLK1_M2C_P
+NET "dio_clk_n_i" LOC = AA22      | IOSTANDARD=LVDS_25;  #CLK1_M2C_N
 
 #   -- Differential inputs, dio_p_i(N) inputs the current state of I/O (N+1) on
 #   -- the mezzanine front panel.
-NET "dio_p_i[4]" LOC = N21        | IOSTANDARD=LVDS_25;  #LA00_P Y11
-NET "dio_n_i[4]" LOC = N22        | IOSTANDARD=LVDS_25;  #LA00_N AB11
-NET "dio_p_i[3]" LOC = P16        | IOSTANDARD=LVDS_25;  #LA03_P V7
-NET "dio_n_i[3]" LOC = N17        | IOSTANDARD=LVDS_25;  #LA03_N W8
-NET "dio_p_i[2]" LOC = AB26       | IOSTANDARD=LVDS_25;  #LA16_P W12
-NET "dio_n_i[2]" LOC = AC26       | IOSTANDARD=LVDS_25;  #LA16_N Y12
-NET "dio_p_i[1]" LOC = K20        | IOSTANDARD=LVDS_25;  #LA20_P  R11
-NET "dio_n_i[1]" LOC = J20        | IOSTANDARD=LVDS_25;  #LA20_N T11
-NET "dio_p_i[0]" LOC = P19        | IOSTANDARD=LVDS_25;  #LA33_P C19
-NET "dio_n_i[0]" LOC = P20        | IOSTANDARD=LVDS_25;  #LA33_N A19
+NET "dio_p_i[4]" LOC = N21        | IOSTANDARD=LVDS_25;  #LA00_P
+NET "dio_n_i[4]" LOC = N22        | IOSTANDARD=LVDS_25;  #LA00_N
+NET "dio_p_i[3]" LOC = P16        | IOSTANDARD=LVDS_25;  #LA03_P
+NET "dio_n_i[3]" LOC = N17        | IOSTANDARD=LVDS_25;  #LA03_N
+NET "dio_p_i[2]" LOC = AB26       | IOSTANDARD=LVDS_25;  #LA16_P
+NET "dio_n_i[2]" LOC = AC26       | IOSTANDARD=LVDS_25;  #LA16_N
+NET "dio_p_i[1]" LOC = K20        | IOSTANDARD=LVDS_25;  #LA20_P
+NET "dio_n_i[1]" LOC = J20        | IOSTANDARD=LVDS_25;  #LA20_N
+NET "dio_p_i[0]" LOC = P19        | IOSTANDARD=LVDS_25;  #LA33_P
+NET "dio_n_i[0]" LOC = P20        | IOSTANDARD=LVDS_25;  #LA33_N
 
 #   -- Differential outputs. When the I/O (N+1) is configured as output (i.e. when
 #   -- dio_oe_n_o(N) = 0), the value of dio_p_o(N) determines the logic state
 #   -- of I/O (N+1) on the front panel of the mezzanine
-NET "dio_p_o[4]" LOC = N18        | IOSTANDARD=LVDS_25;  #LA04_P T8
-NET "dio_n_o[4]" LOC = M19        | IOSTANDARD=LVDS_25;  #LA04_N U8
-NET "dio_p_o[3]" LOC = U19        | IOSTANDARD=LVDS_25;  #LA07_P U9
-NET "dio_n_o[3]" LOC = U20        | IOSTANDARD=LVDS_25;  #LA07_N V9
-NET "dio_p_o[2]" LOC = W20        | IOSTANDARD=LVDS_25;  #LA08_P R9
-NET "dio_n_o[2]" LOC = Y21        | IOSTANDARD=LVDS_25;  #LA08_N R8
-NET "dio_p_o[1]" LOC = M21        | IOSTANDARD=LVDS_25;  #LA28_P Y16
-NET "dio_n_o[1]" LOC = M22        | IOSTANDARD=LVDS_25;  #LA28_N W15
-NET "dio_p_o[0]" LOC = N19        | IOSTANDARD=LVDS_25;  #LA29_P W17
-NET "dio_n_o[0]" LOC = M20        | IOSTANDARD=LVDS_25;  #LA29_N Y18
+NET "dio_p_o[4]" LOC = N18        | IOSTANDARD=LVDS_25;  #LA04_P
+NET "dio_n_o[4]" LOC = M19        | IOSTANDARD=LVDS_25;  #LA04_N
+NET "dio_p_o[3]" LOC = U19        | IOSTANDARD=LVDS_25;  #LA07_P
+NET "dio_n_o[3]" LOC = U20        | IOSTANDARD=LVDS_25;  #LA07_N
+NET "dio_p_o[2]" LOC = W20        | IOSTANDARD=LVDS_25;  #LA08_P
+NET "dio_n_o[2]" LOC = Y21        | IOSTANDARD=LVDS_25;  #LA08_N
+NET "dio_p_o[1]" LOC = M21        | IOSTANDARD=LVDS_25;  #LA28_P
+NET "dio_n_o[1]" LOC = M22        | IOSTANDARD=LVDS_25;  #LA28_N
+NET "dio_p_o[0]" LOC = N19        | IOSTANDARD=LVDS_25;  #LA29_P
+NET "dio_n_o[0]" LOC = M20        | IOSTANDARD=LVDS_25;  #LA29_N
 
 #   -- Output enable. When dio_oe_n_o(N) is 0, connector (N+1) on the front
 #   -- panel is configured as an output.
-NET "dio_oe_n_o[4]" LOC = AE22    | IOSTANDARD=LVCMOS25; #LA05_P AA6
-NET "dio_oe_n_o[3]" LOC = U26     | IOSTANDARD=LVCMOS25; #LA11_P W10
-NET "dio_oe_n_o[2]" LOC = AB25    | IOSTANDARD=LVCMOS25; #LA15_N W11
-NET "dio_oe_n_o[1]" LOC = N23     | IOSTANDARD=LVCMOS25; #LA24_N Y14
-NET "dio_oe_n_o[0]" LOC = P24     | IOSTANDARD=LVCMOS25; #LA30_P V17
+NET "dio_oe_n_o[4]" LOC = AE22    | IOSTANDARD=LVCMOS25; #LA05_P
+NET "dio_oe_n_o[3]" LOC = U26     | IOSTANDARD=LVCMOS25; #LA11_P
+NET "dio_oe_n_o[2]" LOC = AB25    | IOSTANDARD=LVCMOS25; #LA15_N
+NET "dio_oe_n_o[1]" LOC = N23     | IOSTANDARD=LVCMOS25; #LA24_N
+NET "dio_oe_n_o[0]" LOC = P24     | IOSTANDARD=LVCMOS25; #LA30_P
 
 #   -- Termination enable. When dio_term_en_o(N) is 1, connector (N+1) on the front
 #   -- panel is 50-ohm terminated
-NET "dio_term_en_o[4]" LOC = P25  | IOSTANDARD=LVCMOS25; #LA09_N AB7
-NET "dio_term_en_o[3]" LOC = R25  | IOSTANDARD=LVCMOS25; #LA09_P Y7
-NET "dio_term_en_o[2]" LOC = AF22 | IOSTANDARD=LVCMOS25; #LA05_N AB6
-NET "dio_term_en_o[1]" LOC = AF25 | IOSTANDARD=LVCMOS25; #LA06_N AB5
-NET "dio_term_en_o[0]" LOC = N24  | IOSTANDARD=LVCMOS25; #LA30_N W18
+NET "dio_term_en_o[4]" LOC = P25  | IOSTANDARD=LVCMOS25; #LA09_N
+NET "dio_term_en_o[3]" LOC = R25  | IOSTANDARD=LVCMOS25; #LA09_P
+NET "dio_term_en_o[2]" LOC = AF22 | IOSTANDARD=LVCMOS25; #LA05_N
+NET "dio_term_en_o[1]" LOC = AF25 | IOSTANDARD=LVCMOS25; #LA06_N
+NET "dio_term_en_o[0]" LOC = N24  | IOSTANDARD=LVCMOS25; #LA30_N
 
 #    -- Two LEDs on the mezzanine panel. Only Top one is currently used - to
 #    -- blink 1-PPS.
-NET "dio_led_top_o" LOC = R21     | IOSTANDARD=LVCMOS25; #LA01_P AA12
-NET "dio_led_bot_o" LOC = P21     | IOSTANDARD=LVCMOS25; #LA01_N AB12
+NET "dio_led_top_o" LOC = R21     | IOSTANDARD=LVCMOS25; #LA01_P
+NET "dio_led_bot_o" LOC = P21     | IOSTANDARD=LVCMOS25; #LA01_N
 
 #   -- I2C interface for accessing FMC EEPROM. Deprecated, was used in
 #   -- pre-v3.0 releases to store WRPC configuration. Now we use Flash for this.
