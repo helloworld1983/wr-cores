@@ -3,10 +3,10 @@
 #   ---------------------------------------------------------------------------
 
 #   -- Local oscillators
-#NET "clk_125m_dmtd_p_i" LOC = J19  | IOSTANDARD = "LVDS_25"; #Bank 15 VCCO - 2.5 V -- CVPD-922-124.992 MHz PLL reference
-#NET "clk_125m_dmtd_n_i" LOC = H19  | IOSTANDARD = "LVDS_25"; #Bank 15 VCCO - 2.5 V
-NET "clk_125m_dmtd_p_i" LOC = K18  | IOSTANDARD = "LVDS_25"; #Bank 15 VCCO - 2.5 V -- FRETHE025 5x25 MHz PLL reference
-NET "clk_125m_dmtd_n_i" LOC = K19  | IOSTANDARD = "LVDS_25"; #Bank 15 VCCO - 2.5 V
+NET "clk_125m_dmtd_p_i" LOC = J19  | IOSTANDARD = "LVDS_25"; #Bank 15 VCCO - 2.5 V -- CVPD-922-124.992 MHz PLL reference
+NET "clk_125m_dmtd_n_i" LOC = H19  | IOSTANDARD = "LVDS_25"; #Bank 15 VCCO - 2.5 V
+#NET "clk_125m_dmtd_p_i" LOC = K18  | IOSTANDARD = "LVDS_25"; #Bank 15 VCCO - 2.5 V -- FRETHE025 5x25 MHz PLL reference
+#NET "clk_125m_dmtd_n_i" LOC = K19  | IOSTANDARD = "LVDS_25"; #Bank 15 VCCO - 2.5 V
 NET "clk_125m_dmtd_p_i" TNM_NET = clk_125m_dmtd_p_i;
 TIMESPEC TS_dmtd_clk_p_i = PERIOD "clk_125m_dmtd_p_i" 8 ns HIGH 50%;
 NET "clk_125m_dmtd_n_i" TNM_NET = clk_125m_dmtd_n_i;
