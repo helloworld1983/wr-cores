@@ -156,6 +156,9 @@ proc create_root_design { parentCell } {
   set DDR [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:ddrx_rtl:1.0 DDR ]
   set FIXED_IO [ create_bd_intf_port -mode Master -vlnv xilinx.com:display_processing_system7:fixedio_rtl:1.0 FIXED_IO ]
   set SFP [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:sfp_rtl:1.0 SFP ]
+  set eeprom_i2c [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:iic_rtl:1.0 eeprom_i2c ]
+  set sfp_i2c [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:iic_rtl:1.0 sfp_i2c ]
+  set thermo_id [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 thermo_id ]
 
   # Create ports
   set areset_n_i [ create_bd_port -dir I areset_n_i ]
@@ -170,8 +173,6 @@ proc create_root_design { parentCell } {
   set clk_sys_62m5_p [ create_bd_port -dir O -from 0 -to 0 -type clk clk_sys_62m5_p ]
   set dio_oe_n [ create_bd_port -dir O -from 2 -to 0 dio_oe_n ]
   set dio_term [ create_bd_port -dir O -from 2 -to 0 dio_term ]
-  set eeprom_scl_b [ create_bd_port -dir IO eeprom_scl_b ]
-  set eeprom_sda_b [ create_bd_port -dir IO eeprom_sda_b ]
   set pll20dac_cs_n_o [ create_bd_port -dir O pll20dac_cs_n_o ]
   set pll25dac_cs_n_o [ create_bd_port -dir O pll25dac_cs_n_o ]
   set plldac_din_o [ create_bd_port -dir O plldac_din_o ]
@@ -179,7 +180,6 @@ proc create_root_design { parentCell } {
   set pps_n [ create_bd_port -dir O -from 0 -to 0 -type clk pps_n ]
   set pps_p [ create_bd_port -dir O -from 0 -to 0 -type clk pps_p ]
   set sfp_rate_select_o [ create_bd_port -dir O sfp_rate_select_o ]
-  set thermo_id [ create_bd_port -dir IO thermo_id ]
 
   # Create instance: axi_uartlite_0, and set properties
   set axi_uartlite_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_uartlite:2.0 axi_uartlite_0 ]
@@ -309,6 +309,14 @@ CONFIG.PCW_FPGA1_PERIPHERAL_FREQMHZ {10} \
 CONFIG.PCW_FPGA2_PERIPHERAL_FREQMHZ {50} \
 CONFIG.PCW_FPGA3_PERIPHERAL_FREQMHZ {50} \
 CONFIG.PCW_FPGA_FCLK0_ENABLE {1} \
+CONFIG.PCW_FTM_CTI_IN0 {<Select>} \
+CONFIG.PCW_FTM_CTI_IN1 {<Select>} \
+CONFIG.PCW_FTM_CTI_IN2 {<Select>} \
+CONFIG.PCW_FTM_CTI_IN3 {<Select>} \
+CONFIG.PCW_FTM_CTI_OUT0 {<Select>} \
+CONFIG.PCW_FTM_CTI_OUT1 {<Select>} \
+CONFIG.PCW_FTM_CTI_OUT2 {<Select>} \
+CONFIG.PCW_FTM_CTI_OUT3 {<Select>} \
 CONFIG.PCW_GPIO_EMIO_GPIO_ENABLE {0} \
 CONFIG.PCW_GPIO_EMIO_GPIO_IO {<Select>} \
 CONFIG.PCW_GPIO_MIO_GPIO_ENABLE {1} \
@@ -924,6 +932,14 @@ CONFIG.PCW_FCLK_CLK3_BUF.VALUE_SRC {DEFAULT} \
 CONFIG.PCW_FPGA2_PERIPHERAL_FREQMHZ.VALUE_SRC {DEFAULT} \
 CONFIG.PCW_FPGA3_PERIPHERAL_FREQMHZ.VALUE_SRC {DEFAULT} \
 CONFIG.PCW_FPGA_FCLK0_ENABLE.VALUE_SRC {DEFAULT} \
+CONFIG.PCW_FTM_CTI_IN0.VALUE_SRC {DEFAULT} \
+CONFIG.PCW_FTM_CTI_IN1.VALUE_SRC {DEFAULT} \
+CONFIG.PCW_FTM_CTI_IN2.VALUE_SRC {DEFAULT} \
+CONFIG.PCW_FTM_CTI_IN3.VALUE_SRC {DEFAULT} \
+CONFIG.PCW_FTM_CTI_OUT0.VALUE_SRC {DEFAULT} \
+CONFIG.PCW_FTM_CTI_OUT1.VALUE_SRC {DEFAULT} \
+CONFIG.PCW_FTM_CTI_OUT2.VALUE_SRC {DEFAULT} \
+CONFIG.PCW_FTM_CTI_OUT3.VALUE_SRC {DEFAULT} \
 CONFIG.PCW_GPIO_EMIO_GPIO_ENABLE.VALUE_SRC {DEFAULT} \
 CONFIG.PCW_GPIO_EMIO_GPIO_IO.VALUE_SRC {DEFAULT} \
 CONFIG.PCW_GPIO_PERIPHERAL_ENABLE.VALUE_SRC {DEFAULT} \
@@ -1259,11 +1275,11 @@ CONFIG.CONST_WIDTH {4} \
   connect_bd_intf_net -intf_net ps7_0_axi_periph_1_M00_AXI [get_bd_intf_pins ps7_0_axi_periph_1/M00_AXI] [get_bd_intf_pins wrc_board_fasec_0/s00_axi]
   connect_bd_intf_net -intf_net ps7_0_axi_periph_M00_AXI [get_bd_intf_pins axi_uartlite_0/S_AXI] [get_bd_intf_pins ps7_0_axi_periph/M00_AXI]
   connect_bd_intf_net -intf_net wrc_board_fasec_0_SFP [get_bd_intf_ports SFP] [get_bd_intf_pins wrc_board_fasec_0/SFP]
+  connect_bd_intf_net -intf_net wrc_board_fasec_0_eeprom_i2c [get_bd_intf_ports eeprom_i2c] [get_bd_intf_pins wrc_board_fasec_0/eeprom_i2c]
+  connect_bd_intf_net -intf_net wrc_board_fasec_0_sfp_i2c [get_bd_intf_ports sfp_i2c] [get_bd_intf_pins wrc_board_fasec_0/sfp_i2c]
+  connect_bd_intf_net -intf_net wrc_board_fasec_0_thermo_id [get_bd_intf_ports thermo_id] [get_bd_intf_pins wrc_board_fasec_0/thermo_id]
 
   # Create port connections
-  connect_bd_net -net Net [get_bd_ports eeprom_scl_b] [get_bd_pins wrc_board_fasec_0/eeprom_scl_b]
-  connect_bd_net -net Net1 [get_bd_ports eeprom_sda_b] [get_bd_pins wrc_board_fasec_0/eeprom_sda_b]
-  connect_bd_net -net Net2 [get_bd_ports thermo_id] [get_bd_pins wrc_board_fasec_0/thermo_id]
   connect_bd_net -net areset_n_i_1 [get_bd_ports areset_n_i] [get_bd_pins wrc_board_fasec_0/areset_n_i]
   connect_bd_net -net axi_uartlite_0_interrupt [get_bd_pins axi_uartlite_0/interrupt] [get_bd_pins xlconcat_0/In1]
   connect_bd_net -net axi_uartlite_0_tx [get_bd_pins axi_uartlite_0/tx] [get_bd_pins wrc_board_fasec_0/uart_rxd_i]
@@ -1307,90 +1323,90 @@ CONFIG.CONST_WIDTH {4} \
   regenerate_bd_layout -layout_string {
    guistr: "# # String gsaved with Nlview 6.6.5b  2016-09-06 bk=1.3687 VDI=39 GEI=35 GUI=JA:1.6
 #  -string -flagsOSRD
-preplace port sfp_rate_select_o -pg 1 -y 620 -defaultsOSRD
-preplace port DDR -pg 1 -y 50 -defaultsOSRD
-preplace port plldac_din_o -pg 1 -y 600 -defaultsOSRD
-preplace port clk_20m_vcxo_i -pg 1 -y 620 -defaultsOSRD
-preplace port clk_125m_pllref_n_i -pg 1 -y 700 -defaultsOSRD
-preplace port SFP -pg 1 -y 420 -defaultsOSRD
-preplace port thermo_id -pg 1 -y 680 -defaultsOSRD
-preplace port eeprom_sda_b -pg 1 -y 700 -defaultsOSRD
-preplace port eeprom_scl_b -pg 1 -y 660 -defaultsOSRD
-preplace port areset_n_i -pg 1 -y 640 -defaultsOSRD
-preplace port pll20dac_cs_n_o -pg 1 -y 640 -defaultsOSRD
-preplace port pll25dac_cs_n_o -pg 1 -y 820 -defaultsOSRD
-preplace port FIXED_IO -pg 1 -y 20 -defaultsOSRD
-preplace port clk_125m_gtp_p_i -pg 1 -y 680 -defaultsOSRD
-preplace port clk_125m_pllref_p_i -pg 1 -y 720 -defaultsOSRD
-preplace port clk_125m_gtp_n_i -pg 1 -y 660 -defaultsOSRD
-preplace port plldac_sclk_o -pg 1 -y 580 -defaultsOSRD
-preplace portBus clk_ref_125m_p -pg 1 -y 540 -defaultsOSRD
-preplace portBus dio_oe_n -pg 1 -y 870 -defaultsOSRD
-preplace portBus pps_n -pg 1 -y 770 -defaultsOSRD
-preplace portBus pps_p -pg 1 -y 750 -defaultsOSRD
-preplace portBus clk_sys_62m5_n -pg 1 -y 490 -defaultsOSRD
-preplace portBus dio_term -pg 1 -y 950 -defaultsOSRD
-preplace portBus clk_sys_62m5_p -pg 1 -y 470 -defaultsOSRD
-preplace portBus clk_ref_125m_n -pg 1 -y 560 -defaultsOSRD
-preplace inst util_ds_buf_1 -pg 1 -lvl 6 -y 480 -defaultsOSRD
-preplace inst util_ds_buf_2 -pg 1 -lvl 6 -y 580 -defaultsOSRD
-preplace inst xlconstant_0 -pg 1 -lvl 6 -y 870 -defaultsOSRD
-preplace inst xlconstant_1 -pg 1 -lvl 6 -y 950 -defaultsOSRD
-preplace inst xlconstant_2 -pg 1 -lvl 1 -y 140 -defaultsOSRD
-preplace inst xlconcat_0 -pg 1 -lvl 2 -y 150 -defaultsOSRD
-preplace inst wrc_board_fasec_0 -pg 1 -lvl 5 -y 640 -defaultsOSRD
-preplace inst ps7_0_axi_periph -pg 1 -lvl 4 -y 190 -defaultsOSRD
-preplace inst axi_uartlite_0 -pg 1 -lvl 5 -y 210 -defaultsOSRD
-preplace inst rst_wrc_board_fasec_0_62M -pg 1 -lvl 3 -y 570 -defaultsOSRD
-preplace inst rst_ps7_0_100M -pg 1 -lvl 3 -y 370 -defaultsOSRD
-preplace inst util_ds_buf_0 -pg 1 -lvl 6 -y 760 -defaultsOSRD
-preplace inst ps7_0_axi_periph_1 -pg 1 -lvl 4 -y 550 -defaultsOSRD
-preplace inst processing_system7_0 -pg 1 -lvl 3 -y 130 -defaultsOSRD
-preplace netloc processing_system7_0_DDR 1 3 4 NJ 50 NJ 50 NJ 50 NJ
+preplace port sfp_rate_select_o -pg 1 -y 870 -defaultsOSRD
+preplace port DDR -pg 1 -y 480 -defaultsOSRD
+preplace port plldac_din_o -pg 1 -y 810 -defaultsOSRD
+preplace port clk_20m_vcxo_i -pg 1 -y 740 -defaultsOSRD
+preplace port clk_125m_pllref_n_i -pg 1 -y 780 -defaultsOSRD
+preplace port SFP -pg 1 -y 570 -defaultsOSRD
+preplace port thermo_id -pg 1 -y 690 -defaultsOSRD
+preplace port pll25dac_cs_n_o -pg 1 -y 830 -defaultsOSRD
+preplace port pll20dac_cs_n_o -pg 1 -y 850 -defaultsOSRD
+preplace port areset_n_i -pg 1 -y 720 -defaultsOSRD
+preplace port eeprom_i2c -pg 1 -y 670 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -y 510 -defaultsOSRD
+preplace port clk_125m_pllref_p_i -pg 1 -y 760 -defaultsOSRD
+preplace port clk_125m_gtp_p_i -pg 1 -y 820 -defaultsOSRD
+preplace port plldac_sclk_o -pg 1 -y 790 -defaultsOSRD
+preplace port clk_125m_gtp_n_i -pg 1 -y 800 -defaultsOSRD
+preplace port sfp_i2c -pg 1 -y 650 -defaultsOSRD
+preplace portBus clk_ref_125m_p -pg 1 -y 80 -defaultsOSRD
+preplace portBus dio_oe_n -pg 1 -y 1210 -defaultsOSRD
+preplace portBus pps_n -pg 1 -y 1130 -defaultsOSRD
+preplace portBus pps_p -pg 1 -y 1110 -defaultsOSRD
+preplace portBus clk_sys_62m5_n -pg 1 -y 410 -defaultsOSRD
+preplace portBus dio_term -pg 1 -y 1290 -defaultsOSRD
+preplace portBus clk_sys_62m5_p -pg 1 -y 390 -defaultsOSRD
+preplace portBus clk_ref_125m_n -pg 1 -y 100 -defaultsOSRD
+preplace inst util_ds_buf_1 -pg 1 -lvl 6 -y 400 -defaultsOSRD
+preplace inst util_ds_buf_2 -pg 1 -lvl 6 -y 90 -defaultsOSRD
+preplace inst xlconstant_0 -pg 1 -lvl 6 -y 1210 -defaultsOSRD
+preplace inst xlconstant_1 -pg 1 -lvl 6 -y 1290 -defaultsOSRD
+preplace inst xlconstant_2 -pg 1 -lvl 1 -y 580 -defaultsOSRD
+preplace inst xlconcat_0 -pg 1 -lvl 2 -y 590 -defaultsOSRD
+preplace inst wrc_board_fasec_0 -pg 1 -lvl 6 -y 790 -defaultsOSRD
+preplace inst ps7_0_axi_periph -pg 1 -lvl 5 -y 110 -defaultsOSRD
+preplace inst axi_uartlite_0 -pg 1 -lvl 6 -y 210 -defaultsOSRD
+preplace inst rst_wrc_board_fasec_0_62M -pg 1 -lvl 3 -y 330 -defaultsOSRD
+preplace inst rst_ps7_0_100M -pg 1 -lvl 3 -y 90 -defaultsOSRD
+preplace inst util_ds_buf_0 -pg 1 -lvl 6 -y 1120 -defaultsOSRD
+preplace inst ps7_0_axi_periph_1 -pg 1 -lvl 5 -y 350 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 4 -y 570 -defaultsOSRD
+preplace netloc processing_system7_0_DDR 1 4 3 1180J 480 NJ 480 NJ
 preplace netloc xlconstant_1_dout 1 6 1 NJ
-preplace netloc wrc_board_fasec_0_pll25dac_cs_n_o 1 5 2 1630J 820 NJ
+preplace netloc wrc_board_fasec_0_pll25dac_cs_n_o 1 6 1 NJ
 preplace netloc xlconstant_2_dout 1 1 1 NJ
+preplace netloc wrc_board_fasec_0_clk_ref_125m_o 1 5 2 1470 30 1840
 preplace netloc util_ds_buf_1_OBUF_DS_P 1 6 1 NJ
-preplace netloc wrc_board_fasec_0_clk_ref_125m_o 1 5 1 1660
-preplace netloc clk_125m_gtp_p_i_1 1 0 5 -10J 700 NJ 700 NJ 700 NJ 700 1160J
-preplace netloc wrc_board_fasec_0_SFP 1 5 2 NJ 420 NJ
-preplace netloc axi_uartlite_0_interrupt 1 1 5 160 270 NJ 270 800J 310 NJ 310 1610
+preplace netloc clk_125m_gtp_p_i_1 1 0 6 NJ 820 NJ 820 NJ 820 NJ 820 NJ 820 NJ
+preplace netloc wrc_board_fasec_0_SFP 1 6 1 NJ
 preplace netloc util_ds_buf_0_OBUF_DS_N 1 6 1 NJ
-preplace netloc processing_system7_0_M_AXI_GP0 1 3 1 820
-preplace netloc clk_20m_vcxo_i_1 1 0 5 10J 670 NJ 670 NJ 670 NJ 670 1120J
-preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 3 2 820 410 1110
-preplace netloc processing_system7_0_M_AXI_GP1 1 3 1 810
-preplace netloc areset_n_i_1 1 0 5 0J 680 NJ 680 NJ 680 NJ 680 1110J
+preplace netloc axi_uartlite_0_interrupt 1 1 6 160 420 NJ 420 NJ 420 1130J 470 NJ 470 1790
+preplace netloc wrc_board_fasec_0_thermo_id 1 6 1 NJ
+preplace netloc processing_system7_0_M_AXI_GP0 1 4 1 1120
+preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 3 3 N 130 1190 230 NJ
+preplace netloc clk_20m_vcxo_i_1 1 0 6 NJ 740 NJ 740 NJ 740 NJ 740 NJ 740 NJ
+preplace netloc processing_system7_0_M_AXI_GP1 1 4 1 1170
+preplace netloc wrc_board_fasec_0_uart_txd_o 1 6 1 1830
+preplace netloc wrc_board_fasec_0_plldac_sclk_o 1 6 1 NJ
 preplace netloc util_ds_buf_0_OBUF_DS_P 1 6 1 NJ
-preplace netloc wrc_board_fasec_0_plldac_sclk_o 1 5 2 1650J 650 2090J
-preplace netloc wrc_board_fasec_0_uart_txd_o 1 5 1 1660
-preplace netloc processing_system7_0_FCLK_RESET0_N 1 2 2 360 280 770
-preplace netloc wrc_board_fasec_0_clk_sys_62m5_o 1 5 1 1660
-preplace netloc rst_wrc_board_fasec_0_62M_peripheral_aresetn 1 3 2 820 730 NJ
-preplace netloc util_ds_buf_2_OBUF_DS_N 1 6 1 2080J
-preplace netloc clk_125m_gtp_n_i_1 1 0 5 NJ 660 NJ 660 NJ 660 780J 690 1130J
-preplace netloc axi_uartlite_0_tx 1 5 1 1650
-preplace netloc xlconcat_0_dout 1 2 1 N
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 2 3 370 240 NJ 240 1110
+preplace netloc areset_n_i_1 1 0 6 NJ 720 NJ 720 NJ 720 NJ 720 NJ 720 NJ
+preplace netloc wrc_board_fasec_0_clk_sys_62m5_o 1 5 2 1490 460 1800
+preplace netloc rst_wrc_board_fasec_0_62M_peripheral_aresetn 1 3 3 NJ 370 1140 520 1470J
+preplace netloc util_ds_buf_2_OBUF_DS_N 1 6 1 NJ
+preplace netloc clk_125m_gtp_n_i_1 1 0 6 NJ 800 NJ 800 NJ 800 NJ 800 NJ 800 NJ
+preplace netloc axi_uartlite_0_tx 1 6 1 1820
+preplace netloc wrc_board_fasec_0_eeprom_i2c 1 6 1 NJ
+preplace netloc wrc_board_fasec_0_sfp_i2c 1 6 1 NJ
 preplace netloc xlconstant_0_dout 1 6 1 NJ
-preplace netloc wrc_board_fasec_0_pll20dac_cs_n_o 1 5 2 1610J 670 2120J
-preplace netloc processing_system7_0_FIXED_IO 1 3 4 770J 20 NJ 20 NJ 20 NJ
-preplace netloc util_ds_buf_2_OBUF_DS_P 1 6 1 2070J
-preplace netloc wrc_board_fasec_0_sfp_rate_select_o 1 5 2 NJ 660 2110J
-preplace netloc rst_wrc_board_fasec_0_62M_interconnect_aresetn 1 3 1 780
-preplace netloc ps7_0_axi_periph_1_M00_AXI 1 4 1 N
-preplace netloc clk_125m_pllref_p_i_1 1 0 5 NJ 720 NJ 720 NJ 720 NJ 720 1140J
-preplace netloc clk_125m_pllref_n_i_1 1 0 5 -20J 710 NJ 710 NJ 710 NJ 710 1150J
-preplace netloc Net1 1 5 2 NJ 700 NJ
-preplace netloc Net 1 5 2 NJ 680 2130J
-preplace netloc wrc_board_fasec_0_plldac_din_o 1 5 2 1640J 640 2100J
-preplace netloc processing_system7_0_FCLK_CLK0 1 2 3 350 260 780 70 1110
-preplace netloc ps7_0_axi_periph_M00_AXI 1 4 1 N
-preplace netloc wrc_board_fasec_0_pps_p_o 1 5 1 1620
-preplace netloc Net2 1 5 2 1650J 690 2140J
+preplace netloc xlconcat_0_dout 1 2 2 N 590 NJ
+preplace netloc wrc_board_fasec_0_pll20dac_cs_n_o 1 6 1 NJ
+preplace netloc processing_system7_0_FIXED_IO 1 4 3 NJ 510 NJ 510 NJ
+preplace netloc wrc_board_fasec_0_sfp_rate_select_o 1 6 1 NJ
+preplace netloc util_ds_buf_2_OBUF_DS_P 1 6 1 NJ
+preplace netloc rst_wrc_board_fasec_0_62M_interconnect_aresetn 1 3 2 NJ 350 1160
+preplace netloc ps7_0_axi_periph_1_M00_AXI 1 5 1 1480
+preplace netloc clk_125m_pllref_p_i_1 1 0 6 NJ 760 NJ 760 NJ 760 NJ 760 NJ 760 NJ
+preplace netloc wrc_board_fasec_0_plldac_din_o 1 6 1 NJ
+preplace netloc processing_system7_0_FCLK_CLK0 1 2 4 350 430 710 430 1150 500 1470J
+preplace netloc clk_125m_pllref_n_i_1 1 0 6 NJ 780 NJ 780 NJ 780 NJ 780 NJ 780 NJ
+preplace netloc ps7_0_axi_periph_M00_AXI 1 5 1 1470
+preplace netloc wrc_board_fasec_0_pps_p_o 1 5 2 1480 1060 1790
+preplace netloc wrc_board_fasec_0_s00_axi_aclk_o 1 2 5 360 890 710 890 1190 890 1490J 490 1810
 preplace netloc util_ds_buf_1_OBUF_DS_N 1 6 1 NJ
-preplace netloc wrc_board_fasec_0_s00_axi_aclk_o 1 2 4 340 910 800 910 NJ 910 1610
-preplace netloc rst_ps7_0_100M_interconnect_aresetn 1 3 1 790
-levelinfo -pg 1 -40 90 250 570 970 1460 1940 2160 -top 0 -bot 1000
+preplace netloc rst_ps7_0_100M_interconnect_aresetn 1 3 2 N 110 1110J
+levelinfo -pg 1 0 90 260 540 910 1330 1640 1860 -top 0 -bot 1340
 ",
 }
 

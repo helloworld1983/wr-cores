@@ -51,17 +51,27 @@ package wr_fasec_pkg is
       sfp_rxp_i         : in  std_logic;
       sfp_rxn_i         : in  std_logic;
       sfp_det_i         : in  std_logic := '1';
-      sfp_sda_b         : inout std_logic;
-      sfp_scl_b         : inout std_logic;
+      sfp_sda_i         : in  std_logic;
+      sfp_sda_o         : out std_logic;
+      sfp_sda_t         : out std_logic;
+      sfp_scl_i         : in  std_logic;
+      sfp_scl_o         : out std_logic;
+      sfp_scl_t         : out std_logic;
       sfp_rate_select_o : out std_logic;
       sfp_tx_fault_i    : in  std_logic := '0';
       sfp_tx_disable_o  : out std_logic;
       sfp_los_i         : in  std_logic := '0';
   
-      eeprom_scl_b : inout std_logic;
-      eeprom_sda_b : inout std_logic;
-  
-      thermo_id : inout std_logic;
+      eeprom_sda_i : in  std_logic;
+      eeprom_sda_o : out std_logic;
+      eeprom_sda_t : out std_logic;
+      eeprom_scl_i : in  std_logic;
+      eeprom_scl_o : out std_logic;
+      eeprom_scl_t : out std_logic;
+    
+      thermo_id_i : in  std_logic;
+      thermo_id_o : out std_logic;
+      thermo_id_t : out std_logic;
       uart_rxd_i : in  std_logic;
       uart_txd_o : out std_logic;
   

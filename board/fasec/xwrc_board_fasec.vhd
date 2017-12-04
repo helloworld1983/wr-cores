@@ -125,8 +125,12 @@ entity xwrc_board_fasec is
     sfp_rxp_i         : in  std_logic;
     sfp_rxn_i         : in  std_logic;
     sfp_det_i         : in  std_logic := '1';
-    sfp_sda_b         : inout std_logic;
-    sfp_scl_b         : inout std_logic;
+    sfp_sda_i         : in  std_logic;
+    sfp_sda_o         : out std_logic;
+    sfp_sda_t         : out std_logic;
+    sfp_scl_i         : in  std_logic;
+    sfp_scl_o         : out std_logic;
+    sfp_scl_t         : out std_logic;
     sfp_rate_select_o : out std_logic;
     sfp_tx_fault_i    : in  std_logic := '0';
     sfp_tx_disable_o  : out std_logic;
@@ -135,13 +139,19 @@ entity xwrc_board_fasec is
     ---------------------------------------------------------------------------
     -- I2C EEPROM
     ---------------------------------------------------------------------------
-    eeprom_scl_b : inout std_logic;
-    eeprom_sda_b : inout std_logic;
+    eeprom_sda_i : in  std_logic;
+    eeprom_sda_o : out std_logic;
+    eeprom_sda_t : out std_logic;
+    eeprom_scl_i : in  std_logic;
+    eeprom_scl_o : out std_logic;
+    eeprom_scl_t : out std_logic;
 
     ---------------------------------------------------------------------------
     -- Onewire interface
     ---------------------------------------------------------------------------
-    thermo_id : inout std_logic;
+    thermo_id_i : in  std_logic;
+    thermo_id_o : out std_logic;
+    thermo_id_t : out std_logic;
 
     ---------------------------------------------------------------------------
     -- UART
@@ -306,18 +316,6 @@ architecture struct of xwrc_board_fasec is
   signal dac_hpll_data    : std_logic_vector(15 downto 0);
   signal dac_dpll_load_p1 : std_logic;
   signal dac_dpll_data    : std_logic_vector(15 downto 0);
-
-  -- EEPROM
-  signal eeprom_sda_out : std_logic;
-  signal eeprom_sda_in  : std_logic;
-  signal eeprom_scl_out : std_logic;
-  signal eeprom_scl_in  : std_logic;
-
-  -- SFP EEPROM
-  signal sfp_sda_out : std_logic;
-  signal sfp_sda_in  : std_logic;
-  signal sfp_scl_out : std_logic;
-  signal sfp_scl_in  : std_logic;
 
   -- OneWire
   signal onewire_in : std_logic_vector(1 downto 0);
@@ -498,14 +496,14 @@ begin  -- architecture struct
       dac_dpll_data_o      => dac_dpll_data,
       phy16_o              => phy16_from_wrc,
       phy16_i              => phy16_to_wrc,
-      scl_o                => eeprom_scl_out,
-      scl_i                => eeprom_scl_in,
-      sda_o                => eeprom_sda_out,
-      sda_i                => eeprom_sda_in,
-      sfp_scl_o            => sfp_scl_out,
-      sfp_scl_i            => sfp_scl_in,
-      sfp_sda_o            => sfp_sda_out,
-      sfp_sda_i            => sfp_sda_in,
+      scl_o                => eeprom_scl_t,
+      scl_i                => eeprom_scl_i,
+      sda_o                => eeprom_sda_t,
+      sda_i                => eeprom_sda_i,
+      sfp_scl_o            => sfp_scl_t,
+      sfp_scl_i            => sfp_scl_i,
+      sfp_sda_o            => sfp_sda_t,
+      sfp_sda_i            => sfp_sda_i,
       sfp_det_i            => sfp_det_i,
       spi_sclk_o           => flash_sclk_o,
       spi_ncs_o            => flash_ncs_o,
@@ -569,19 +567,15 @@ begin  -- architecture struct
   --onewire_in(0) <= onewire_i;
   --onewire_in(1) <= '1';
 
-  thermo_id     <= '0' when onewire_en(0) = '1' else 'Z';
-  onewire_in(0) <= thermo_id;
+  thermo_id_t <= '0' when onewire_en(0) = '1' else '1';
+  thermo_id_o <= '0';
+  onewire_in(0) <= thermo_id_i;
   onewire_in(1) <= '1';
 
-  eeprom_scl_b  <= '0' when eeprom_scl_out = '0' else 'Z';
-  eeprom_sda_b  <= '0' when eeprom_sda_out = '0' else 'Z';
-  eeprom_scl_in <= eeprom_scl_b;
-  eeprom_sda_in <= eeprom_sda_b;
-
-  sfp_scl_b  <= '0' when sfp_scl_out = '0' else 'Z';
-  sfp_sda_b  <= '0' when sfp_sda_out = '0' else 'Z';
-  sfp_scl_in <= sfp_scl_b;
-  sfp_sda_in <= sfp_sda_b;
+  eeprom_sda_o <= '0';
+  eeprom_scl_o <= '0';
+  sfp_sda_o    <= '0';
+  sfp_scl_o    <= '0';
 
   s00_axi_aclk_o <= clk_pll_62m5;
 
