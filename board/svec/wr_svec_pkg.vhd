@@ -59,9 +59,9 @@ package wr_svec_pkg is
       sfp_tx_fault_i       : in  std_logic                                        := '0';
       sfp_tx_disable_o     : out std_logic;
       sfp_los_i            : in  std_logic                                        := '0';
-      eeprom_sda_i         : in  std_logic;
+      eeprom_sda_i         : in  std_logic                                        := '1';
       eeprom_sda_o         : out std_logic;
-      eeprom_scl_i         : in  std_logic;
+      eeprom_scl_i         : in  std_logic                                        := '1';
       eeprom_scl_o         : out std_logic;
       onewire_i            : in  std_logic;
       onewire_oen_o        : out std_logic;
