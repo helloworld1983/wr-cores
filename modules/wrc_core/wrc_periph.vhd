@@ -397,21 +397,25 @@ begin
   ----------------------------------------
   -- SYSCON
   ----------------------------------------
-  SYSCON : xwr_syscon_wb
-    generic map(
-      g_interface_mode      => PIPELINED,
-      g_address_granularity => BYTE
-      )
-    port map(
-      rst_n_i   => rst_n_i,
-      clk_sys_i => clk_sys_i,
+  SYSCON : entity work.wrc_syscon_wb
+    port map (
+      rst_n_i    => rst_n_i,
+      clk_sys_i  => clk_sys_i,
+      wb_adr_i   => slave_i(0).adr(6 downto 2), -- shift address for word addressing
+      wb_dat_i   => slave_i(0).dat,
+      wb_dat_o   => slave_o(0).dat,
+      wb_cyc_i   => slave_i(0).cyc,
+      wb_sel_i   => slave_i(0).sel,
+      wb_stb_i   => slave_i(0).stb,
+      wb_we_i    => slave_i(0).we,
+      wb_ack_o   => slave_o(0).ack,
+      wb_stall_o => slave_o(0).stall,
+      regs_i     => sysc_regs_i,
+      regs_o     => sysc_regs_o);
 
-      slave_i => slave_i(0),
-      slave_o => slave_o(0),
-
-      regs_i => sysc_regs_i,
-      regs_o => sysc_regs_o
-      );
+  slave_o(0).err <= '0';
+  slave_o(0).rty <= '0';
+  slave_o(0).int <= '0';
 
   --------------------------------------
   -- UART
