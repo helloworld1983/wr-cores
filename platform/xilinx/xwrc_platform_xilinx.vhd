@@ -122,6 +122,7 @@ entity xwrc_platform_xilinx is
     -- PLL outputs
     clk_62m5_sys_o        : out std_logic;
     clk_125m_ref_o        : out std_logic;
+    clk_ref_locked_o      : out std_logic;
     clk_62m5_dmtd_o       : out std_logic;
     pll_locked_o          : out std_logic;
     clk_10m_ext_o         : out std_logic;
@@ -945,6 +946,7 @@ begin  -- architecture rtl
 
     signal clk_ref          : std_logic;
     signal clk_125m_gtx_buf : std_logic;
+    signal clk_ref_locked   : std_logic;
 
   begin
 
@@ -992,9 +994,10 @@ begin  -- architecture rtl
         pad_rxn_i => sfp_rxn_i,
         pad_rxp_i => sfp_rxp_i,
 
-        tx_locked_o   => open);
+        tx_locked_o   => clk_ref_locked);
 
     clk_125m_ref_o       <= clk_ref;
+    clk_ref_locked_o     <= clk_ref_locked;
     phy16_o.ref_clk      <= clk_ref;
     phy16_o.sfp_tx_fault <= sfp_tx_fault_i;
     phy16_o.sfp_los      <= sfp_los_i;
@@ -1012,6 +1015,7 @@ begin  -- architecture rtl
 
     signal clk_ref          : std_logic;
     signal clk_125m_gtp_buf : std_logic;
+    signal clk_ref_locked   : std_logic;
 
   begin
 
@@ -1059,9 +1063,10 @@ begin  -- architecture rtl
         pad_rxn_i => sfp_rxn_i,
         pad_rxp_i => sfp_rxp_i,
 
-        tx_locked_o   => open);
+        tx_locked_o   => clk_ref_locked);
 
     clk_125m_ref_o       <= clk_ref;
+    clk_ref_locked_o     <= clk_ref_locked;
     phy16_o.ref_clk      <= clk_ref;
     phy16_o.sfp_tx_fault <= sfp_tx_fault_i;
     phy16_o.sfp_los      <= sfp_los_i;
