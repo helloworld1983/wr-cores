@@ -14,7 +14,7 @@
 -- deterministic delays at 1.25 Gbps.
 -------------------------------------------------------------------------------
 --
--- Copyright (c) 2010 CERN / Tomasz Wlostowski
+-- Copyright (c) 2010 CERN
 --
 -- This source file is free software; you can redistribute it   
 -- and/or modify it under the terms of the GNU Lesser General   

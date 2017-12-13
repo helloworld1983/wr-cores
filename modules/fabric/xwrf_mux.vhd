@@ -18,7 +18,7 @@
 -- has to be forwarded to Mini-NIC (if it is the PTP message) or to the 
 -- external interface (others).
 -------------------------------------------------------------------------------
--- Copyright (c) 2012 Grzegorz Daniluk
+-- Copyright (c) 2012 - 2017 CERN
 -------------------------------------------------------------------------------
 -- Revisions  :
 -- Date        Version  Author          Description

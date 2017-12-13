@@ -16,7 +16,7 @@
 -- clk_fbck_i cycles. Divider counters can be synchronized at any moment 
 -- by pulsing the sync_p_i signal.
 -------------------------------------------------------------------------------
--- Copyright (c) 2010 Tomasz Wlostowski
+-- Copyright (c) 2010 CERN
 -------------------------------------------------------------------------------
 -- Revisions  :
 -- Date        Version  Author          Description

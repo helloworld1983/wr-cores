@@ -4,15 +4,14 @@
 -------------------------------------------------------------------------------
 -- File       : wrcore_pkg.vhd
 -- Author     : Grzegorz Daniluk <grzegorz.daniluk@cern.ch>
--- Company    : CERN (BE-CO-HT), Elproma
+-- Company    : CERN (BE-CO-HT)
 -- Created    : 2011-05-11
 -- Last update: 2017-05-29
 -- Platform   : FPGA-generics
 -- Standard   : VHDL
 -------------------------------------------------------------------------------
 --
--- Copyright (c) 2011, 2012 Elproma Elektronika
--- Copyright (c) 2012, 2017 CERN
+-- Copyright (c) 2012 - 2017 CERN
 --
 -- This source file is free software; you can redistribute it
 -- and/or modify it under the terms of the GNU Lesser General

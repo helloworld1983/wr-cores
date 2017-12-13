@@ -13,7 +13,7 @@
 -- Description: RX Wishbone Master. Converts the internal fabric (DREQ-VALID
 -- throttling) to Pipelined Wishbone (b4)
 -------------------------------------------------------------------------------
--- Copyright (c) 2011-2017 CERN/Tomasz Wlostowski
+-- Copyright (c) 2011-2017 CERN
 -------------------------------------------------------------------------------
 -- Revisions  :
 -- Date        Version  Author  Description

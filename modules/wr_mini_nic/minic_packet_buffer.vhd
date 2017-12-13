@@ -13,7 +13,7 @@
 -- Description: RAM-based packet buffer for miNIC implementations which don't
 -- use the DMA access to the system memory
 -------------------------------------------------------------------------------
--- Copyright (c) 2010 Tomasz Wlostowski
+-- Copyright (c) 2010 CERN
 -------------------------------------------------------------------------------
 -- Revisions  :
 -- Date        Version  Author          Description
