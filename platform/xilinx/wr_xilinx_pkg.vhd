@@ -27,6 +27,7 @@ package wr_xilinx_pkg is
       clk_62m5_sys_i        : in  std_logic             := '0';
       clk_sys_locked_i      : in  std_logic             := '1';
       clk_125m_ref_i        : in  std_logic             := '0';
+      clk_ref_locked_i      : in  std_logic             := '1';
       clk_125m_ext_i        : in  std_logic             := '0';
       clk_ext_locked_i      : in  std_logic             := '1';
       clk_ext_stopped_i     : in  std_logic             := '0';

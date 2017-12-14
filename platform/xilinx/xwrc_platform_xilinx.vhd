@@ -100,6 +100,7 @@ entity xwrc_platform_xilinx is
     clk_sys_locked_i      : in  std_logic             := '1';
     -- 125MHz  Reference clock
     clk_125m_ref_i        : in  std_logic             := '0';
+    clk_ref_locked_i      : in  std_logic             := '1';
     -- 125MHz derived from 10MHz external reference and lock status
     -- (when g_with_external_clock_input = TRUE)
     clk_125m_ext_i        : in  std_logic             := '0';
@@ -235,6 +236,7 @@ begin  -- architecture rtl
       clk_62m5_sys_o <= clk_sys_out;
       clk_125m_ref_o <= clk_125m_pllref_buf;
       pll_locked_o   <= pll_sys_locked and pll_dmtd_locked;
+      clk_ref_locked_o <= '1';
 
       -- DMTD PLL
       cmp_dmtd_clk_pll : PLL_BASE
@@ -824,7 +826,8 @@ begin  -- architecture rtl
     clk_62m5_dmtd_o <= clk_62m5_dmtd_i;
     clk_125m_ref_o  <= clk_125m_ref_i;
 
-    pll_locked_o <= clk_sys_locked_i and clk_dmtd_locked_i;
+    pll_locked_o     <= clk_sys_locked_i and clk_dmtd_locked_i;
+    clk_ref_locked_o <= clk_ref_locked_i;
 
     ext_ref_mul_o         <= clk_125m_ext_i;
     ext_ref_mul_locked_o  <= clk_ext_locked_i;
