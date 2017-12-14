@@ -4,18 +4,16 @@
 -- URL        : http://www.ohwr.org/projects/wr-cores/wiki/Wrpc_core
 -------------------------------------------------------------------------------
 -- File       : xwrc_board_common.vhd
--- Author(s)  : Dimitrios Lampridis  <dimitrios.lampridis@cern.ch>
 -- Company    : CERN (BE-CO-HT)
--- Created    : 2017-02-22
--- Last update: 2017-05-29
 -- Standard   : VHDL'93
 -------------------------------------------------------------------------------
 -- Description: Wrapper for WR PTP core with common features shared between
 -- the various supported boards. These include the core itself, as well as
 -- a selection of fabric interfaces between the core and the application.
 -------------------------------------------------------------------------------
+--
 -- Copyright (c) 2017 CERN
--------------------------------------------------------------------------------
+--
 -- GNU LESSER GENERAL PUBLIC LICENSE
 --
 -- This source file is free software; you can redistribute it   
