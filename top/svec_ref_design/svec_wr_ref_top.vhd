@@ -255,7 +255,6 @@ architecture top of svec_wr_ref_top is
   signal vme_ga            : std_logic_vector(5 downto 0);
   signal vme_berr_n        : std_logic;
   signal vme_irq_n         : std_logic_vector(7 downto 1);
-  signal vme_wb_out        : t_wishbone_master_out;
 
   -- SFP
   signal sfp_sda_in  : std_logic;
@@ -308,9 +307,10 @@ begin  -- architecture top
 
   cmp_vme_core : xvme64x_core
     generic map (
-      g_CLOCK_PERIOD => 16,
-      g_DECODE_AM    => True,
-      g_USER_CSR_EXT  => False,
+      g_CLOCK_PERIOD    => 16,
+      g_DECODE_AM       => True,
+      g_USER_CSR_EXT    => False,
+      g_WB_GRANULARITY  => BYTE,
       g_MANUFACTURER_ID => c_CERN_ID,
       g_BOARD_ID        => c_SVEC_ID,
       g_REVISION_ID     => c_SVEC_REVISION_ID,
@@ -343,17 +343,9 @@ begin  -- architecture top
       vme_o.data_oe_n => vme_data_oe_n_o,
       vme_o.addr_dir  => vme_addr_dir_int,
       vme_o.addr_oe_n => vme_addr_oe_n_o,
-      wb_o            => vme_wb_out,
+      wb_o            => cnx_master_out(c_WB_MASTER_VME),
       wb_i            => cnx_master_in(c_WB_MASTER_VME));
 
-  -- Shift WB address for byte addressing
-  cnx_master_out(c_WB_MASTER_VME).cyc <= vme_wb_out.cyc;
-  cnx_master_out(c_WB_MASTER_VME).stb <= vme_wb_out.stb;
-  cnx_master_out(c_WB_MASTER_VME).adr <= vme_wb_out.adr(29 downto 0) & "00";
-  cnx_master_out(c_WB_MASTER_VME).sel <= vme_wb_out.sel;
-  cnx_master_out(c_WB_MASTER_VME).we  <= vme_wb_out.we;
-  cnx_master_out(c_WB_MASTER_VME).dat <= vme_wb_out.dat;
-  --
   vme_ga <= vme_gap_i & vme_ga_i;
   vme_berr_o <= not vme_berr_n;
   vme_irq_o  <= not vme_irq_n;
