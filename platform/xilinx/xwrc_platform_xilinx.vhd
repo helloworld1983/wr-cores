@@ -826,6 +826,8 @@ begin  -- architecture rtl
     clk_62m5_dmtd_o <= clk_62m5_dmtd_i;
     clk_125m_ref_o  <= clk_125m_ref_i;
 
+    clk_125m_pllref_buf <= clk_125m_ref_i;
+
     pll_locked_o     <= clk_sys_locked_i and clk_dmtd_locked_i;
     clk_ref_locked_o <= clk_ref_locked_i;
 
