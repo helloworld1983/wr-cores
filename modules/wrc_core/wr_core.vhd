@@ -6,7 +6,7 @@
 -- Author     : Grzegorz Daniluk <grzegorz.daniluk@cern.ch>
 -- Company    : CERN (BE-CO-HT)
 -- Created    : 2011-02-02
--- Last update: 2017-05-29
+-- Last update: 2018-03-19
 -- Platform   : FPGA-generics
 -- Standard   : VHDL
 -------------------------------------------------------------------------------
@@ -677,6 +677,8 @@ begin
       slave_i => spll_wb_in,
       slave_o => spll_wb_out,
 
+      int_o => softpll_irq,
+
       debug_o => open);
 
   clk_fb(0)                       <= clk_ref_i;
@@ -703,8 +705,6 @@ begin
   locked_spll : if g_aux_clks > 0 generate
     tm_clk_aux_locked_o <= spll_out_locked(g_aux_clks downto 1);
   end generate;
-
-  softpll_irq <= spll_wb_out.int;
 
   -----------------------------------------------------------------------------
   -- Endpoint
@@ -1073,7 +1073,6 @@ begin
   secbar_master_i(7).stall <= aux_stall_i;
   secbar_master_i(7).err   <= '0';
   secbar_master_i(7).rty   <= '0';
-  secbar_master_i(7).int   <= '0';
 
   --secbar_master_i(6).err <= '0';
   --secbar_master_i(5).err <= '0';

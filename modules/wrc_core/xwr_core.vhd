@@ -6,7 +6,7 @@
 -- Author     : Grzegorz Daniluk <grzegorz.daniluk@cern.ch>
 -- Company    : CERN (BE-CO-HT)
 -- Created    : 2011-02-02
--- Last update: 2017-05-29
+-- Last update: 2018-03-08
 -- Platform   : FPGA-generics
 -- Standard   : VHDL
 -------------------------------------------------------------------------------
@@ -440,8 +440,6 @@ begin
       );
 
   timestamps_o.port_id(5) <= '0';
-
-  slave_o.int <= '0';
 
   wrf_snk_o.rty <= '0';
 
