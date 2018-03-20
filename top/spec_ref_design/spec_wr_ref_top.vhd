@@ -7,7 +7,7 @@
 -- Author(s)  : Grzegorz Daniluk <grzegorz.daniluk@cern.ch>
 -- Company    : CERN (BE-CO-HT)
 -- Created    : 2017-02-20
--- Last update: 2017-03-10
+-- Last update: 2018-03-20
 -- Standard   : VHDL'93
 -------------------------------------------------------------------------------
 -- Description: Top-level file for the WRPC reference design on the SPEC.
@@ -391,7 +391,6 @@ begin  -- architecture top
       csr_stall_i => cnx_master_in(c_WB_MASTER_PCIE).stall,
       csr_err_i   => cnx_master_in(c_WB_MASTER_PCIE).err,
       csr_rty_i   => cnx_master_in(c_WB_MASTER_PCIE).rty,
-      csr_int_i   => cnx_master_in(c_WB_MASTER_PCIE).int,
 
       ---------------------------------------------------------
       -- L2P DMA Interface (Pipelined Wishbone master)
@@ -400,8 +399,7 @@ begin  -- architecture top
       dma_ack_i   => '1',
       dma_stall_i => '0',
       dma_err_i   => '0',
-      dma_rty_i   => '0',
-      dma_int_i   => '0');
+      dma_rty_i   => '0');
 
   -- "translating" word addressing of Gennum module into byte addressing
   cnx_master_out(c_WB_MASTER_PCIE).adr(1 downto 0)   <= (others => '0');

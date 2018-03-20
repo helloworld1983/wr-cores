@@ -102,7 +102,6 @@ begin
   w_slave_o.DAT <= (others => '0');
   w_slave_o.STALL <= '0'; -- Never stall; report error if something bad happens
   w_slave_o.RTY <= '0';
-  w_slave_o.INT <= '0'; -- This doesn't belong in the struct :-/
   
   Q : eca_sdp
     generic map(

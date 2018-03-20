@@ -7,7 +7,7 @@
 -- Author(s)  : Dimitrios Lampridis  <dimitrios.lampridis@cern.ch>
 -- Company    : CERN (BE-CO-HT)
 -- Created    : 2016-07-26
--- Last update: 2017-07-04
+-- Last update: 2018-03-20
 -- Standard   : VHDL'93
 -------------------------------------------------------------------------------
 -- Description: Top-level wrapper for WR PTP core including all the modules
@@ -155,7 +155,6 @@ entity wrc_board_vfchd is
     wb_cyc_i   : in  std_logic                                               := '0';
     wb_stb_i   : in  std_logic                                               := '0';
     wb_ack_o   : out std_logic;
-    wb_int_o   : out std_logic;
     wb_err_o   : out std_logic;
     wb_rty_o   : out std_logic;
     wb_stall_o : out std_logic;
@@ -168,7 +167,6 @@ entity wrc_board_vfchd is
     aux_master_cyc_o   : out std_logic;
     aux_master_stb_o   : out std_logic;
     aux_master_ack_i   : in  std_logic                                          := '0';
-    aux_master_int_i   : in  std_logic                                          := '0';
     aux_master_err_i   : in  std_logic                                          := '0';
     aux_master_rty_i   : in  std_logic                                          := '0';
     aux_master_stall_i : in  std_logic                                          := '0';
@@ -230,7 +228,6 @@ entity wrc_board_vfchd is
     wb_eth_cyc_o   : out std_logic;
     wb_eth_stb_o   : out std_logic;
     wb_eth_ack_i   : in  std_logic                                          := '0';
-    wb_eth_int_i   : in  std_logic                                          := '0';
     wb_eth_err_i   : in  std_logic                                          := '0';
     wb_eth_rty_i   : in  std_logic                                          := '0';
     wb_eth_stall_i : in  std_logic                                          := '0';
@@ -342,7 +339,6 @@ begin  -- architecture struct
   wb_err_o   <= wb_slave_out.err;
   wb_rty_o   <= wb_slave_out.rty;
   wb_stall_o <= wb_slave_out.stall;
-  wb_int_o   <= wb_slave_out.int;
   wb_dat_o   <= wb_slave_out.dat;
 
   aux_master_adr_o <= aux_master_out.adr;
@@ -354,7 +350,6 @@ begin  -- architecture struct
 
   aux_master_in.dat   <= aux_master_dat_i;
   aux_master_in.ack   <= aux_master_ack_i;
-  aux_master_in.int   <= aux_master_int_i;
   aux_master_in.err   <= aux_master_err_i;
   aux_master_in.rty   <= aux_master_rty_i;
   aux_master_in.stall <= aux_master_stall_i;
@@ -391,7 +386,6 @@ begin  -- architecture struct
 
   wb_eth_master_in.dat   <= wb_eth_dat_i;
   wb_eth_master_in.ack   <= wb_eth_ack_i;
-  wb_eth_master_in.int   <= wb_eth_int_i;
   wb_eth_master_in.err   <= wb_eth_err_i;
   wb_eth_master_in.rty   <= wb_eth_rty_i;
   wb_eth_master_in.stall <= wb_eth_stall_i;

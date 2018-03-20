@@ -7,7 +7,7 @@
 -- Author(s)  : Dimitrios Lampridis  <dimitrios.lampridis@cern.ch>
 -- Company    : CERN (BE-CO-HT)
 -- Created    : 2017-01-24
--- Last update: 2017-03-10
+-- Last update: 2018-03-20
 -- Standard   : VHDL'93
 -------------------------------------------------------------------------------
 -- Description: Top-level file for the WRPC reference design on the VFC-HD.
@@ -635,14 +635,12 @@ begin  -- architecture top
   cnx2_slave_out(c_WB_SLAVE_I2CMUX).dat   <= X"000000" & i2c_wb_dat_out;
   cnx2_slave_out(c_WB_SLAVE_I2CMUX).err   <= '0';
   cnx2_slave_out(c_WB_SLAVE_I2CMUX).rty   <= '0';
-  cnx2_slave_out(c_WB_SLAVE_I2CMUX).int   <= '0';
   cnx2_slave_out(c_WB_SLAVE_I2CMUX).stall <= not cnx2_slave_out(c_WB_SLAVE_I2CMUX).ack and
                                              (cnx2_slave_in(c_WB_SLAVE_I2CMUX).stb and
                                               cnx2_slave_in(c_WB_SLAVE_I2CMUX).cyc);
 
   cnx1_slave_out(c_WB_SLAVE_I2CCFG).err   <= '0';
   cnx1_slave_out(c_WB_SLAVE_I2CCFG).rty   <= '0';
-  cnx1_slave_out(c_WB_SLAVE_I2CCFG).int   <= '0';
   cnx1_slave_out(c_WB_SLAVE_I2CCFG).stall <= not cnx1_slave_out(c_WB_SLAVE_I2CCFG).ack and
                                              (cnx1_slave_in(c_WB_SLAVE_I2CCFG).stb and
                                               cnx1_slave_in(c_WB_SLAVE_I2CCFG).cyc);

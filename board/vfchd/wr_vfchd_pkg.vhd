@@ -7,7 +7,7 @@
 -- Author(s)  : Dimitrios Lampridis  <dimitrios.lampridis@cern.ch>
 -- Company    : CERN (BE-CO-HT)
 -- Created    : 2016-07-26
--- Last update: 2017-07-04
+-- Last update: 2018-03-20
 -- Standard   : VHDL'93
 -------------------------------------------------------------------------------
 -- Copyright (c) 2016-2017 CERN
@@ -186,7 +186,6 @@ package wr_vfchd_pkg is
       wb_cyc_i             : in  std_logic                                               := '0';
       wb_stb_i             : in  std_logic                                               := '0';
       wb_ack_o             : out std_logic;
-      wb_int_o             : out std_logic;
       wb_err_o             : out std_logic;
       wb_rty_o             : out std_logic;
       wb_stall_o           : out std_logic;
@@ -198,7 +197,6 @@ package wr_vfchd_pkg is
       aux_master_cyc_o     : out std_logic;
       aux_master_stb_o     : out std_logic;
       aux_master_ack_i     : in  std_logic                                               := '0';
-      aux_master_int_i     : in  std_logic                                               := '0';
       aux_master_err_i     : in  std_logic                                               := '0';
       aux_master_rty_i     : in  std_logic                                               := '0';
       aux_master_stall_i   : in  std_logic                                               := '0';
@@ -249,7 +247,6 @@ package wr_vfchd_pkg is
       wb_eth_cyc_o         : out std_logic;
       wb_eth_stb_o         : out std_logic;
       wb_eth_ack_i         : in  std_logic                                               := '0';
-      wb_eth_int_i         : in  std_logic                                               := '0';
       wb_eth_err_i         : in  std_logic                                               := '0';
       wb_eth_rty_i         : in  std_logic                                               := '0';
       wb_eth_stall_i       : in  std_logic                                               := '0';
