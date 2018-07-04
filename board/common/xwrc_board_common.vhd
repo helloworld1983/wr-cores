@@ -257,7 +257,7 @@ end entity xwrc_board_common;
 
 architecture struct of xwrc_board_common is
 
-  component eb_ethernet_slave is
+    component eb_ethernet_slave is
     generic(
       g_sdb_address    : std_logic_vector(63 downto 0);
       g_timeout_cycles : natural := 6250000; -- 100 ms at 62.5MHz
@@ -274,7 +274,7 @@ architecture struct of xwrc_board_common is
       master_o    : out t_wishbone_master_out;
       master_i    : in  t_wishbone_master_in);
   end component;
-  
+
   -----------------------------------------------------------------------------
   -- Signals
   -----------------------------------------------------------------------------
