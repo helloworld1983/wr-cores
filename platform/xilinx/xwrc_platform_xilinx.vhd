@@ -64,7 +64,8 @@ entity xwrc_platform_xilinx is
       g_gtp_enable_ch0            : integer := 0;
       g_gtp_enable_ch1            : integer := 1;
       -- Set to TRUE will speed up some initialization processes
-      g_simulation                : integer := 0
+      g_simulation                : integer := 0;
+      g_ddr_clock_divider : integer := 3
       );
   port (
     ---------------------------------------------------------------------------
@@ -125,6 +126,7 @@ entity xwrc_platform_xilinx is
     clk_125m_ref_o        : out std_logic;
     clk_ref_locked_o      : out std_logic;
     clk_62m5_dmtd_o       : out std_logic;
+    clk_ddr_o : out std_logic;
     pll_locked_o          : out std_logic;
     clk_10m_ext_o         : out std_logic;
     -- PHY
@@ -196,6 +198,7 @@ begin  -- architecture rtl
       signal clk_dmtd_fb      : std_logic;
       signal pll_dmtd_locked  : std_logic;
       signal clk_20m_vcxo_buf : std_logic;
+      signal clk_ddr : std_logic;
 
     begin  --gen_spartan6_default_plls
 
@@ -211,11 +214,15 @@ begin  -- architecture rtl
           CLKOUT0_DIVIDE     => 16,
           CLKOUT0_PHASE      => 0.000,
           CLKOUT0_DUTY_CYCLE => 0.500,
+          CLKOUT1_DIVIDE     => 3,
+          CLKOUT1_PHASE      => 0.000,
+          CLKOUT1_DUTY_CYCLE => 0.500,
           CLKIN_PERIOD       => 8.0,
           REF_JITTER         => 0.016)
         port map (
           CLKFBOUT => clk_sys_fb,
           CLKOUT0  => clk_sys,
+          CLKOUT1 => clk_ddr,
           LOCKED   => pll_sys_locked,
           RST      => pll_arst,
           CLKFBIN  => clk_sys_fb,
@@ -226,6 +233,12 @@ begin  -- architecture rtl
         port map (
           O => clk_125m_pllref_buf,
           I => clk_125m_pllref_i);
+
+      -- DDR PLL global clock buffer
+      cmp_ddr_clk_buf_o : BUFG
+        port map (
+          O => clk_ddr_o,
+          I => clk_ddr);
 
       -- System PLL output clock buffer
       cmp_clk_sys_buf_o : BUFG
