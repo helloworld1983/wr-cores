@@ -1,0 +1,143 @@
+#   ---------------------------------------------------------------------------`
+#   -- Clocks/resets
+#   ---------------------------------------------------------------------------
+
+#   -- Local oscillators
+NET "clk_20m_vcxo_n_i" LOC = AA22 | IOSTANDARD = LVDS_25; # 125 MHz secondary VCXO clock
+NET "clk_20m_vcxo_p_i" LOC = Y22  | IOSTANDARD = LVDS_25; # 3.3V bank, external termination
+NET "clk_20m_vcxo_p_i" TNM_NET = clk_20m_vcxo_i;
+TIMESPEC TS_clk_20m_vcxo_i = PERIOD "clk_20m_vcxo_i" 8 ns HIGH 50%;
+
+INST *.cmp_dmtd_clk_pll CLKFBOUT_MULT_F = 8;
+INST *.cmp_dmtd_clk_pll CLKIN1_PERIOD = 8.0;
+
+#NET "clk_125m_pllref_p_i" LOC = F6 | IOSTANDARD = "LVDS_25";    #Bank 116 -- 125 MHz PLL reference
+#NET "clk_125m_pllref_n_i" LOC = F5 | IOSTANDARD = "LVDS_25";    #Bank 116 -- 125 MHz PLL reference
+#NET "clk_125m_pllref_p_i" TNM_NET = clk_125m_pllref_p_i;
+#TIMESPEC TS_clk_125m_pllref_p_i = PERIOD "clk_125m_pllref_p_i" 8 ns HIGH 50%;
+#NET "clk_125m_pllref_n_i" TNM_NET = clk_125m_pllref_n_i;
+#TIMESPEC TS_clk_125m_pllref_n_i = PERIOD "clk_125m_pllref_n_i" 8 ns HIGH 50%;
+
+NET "clk_125m_gtx_p_i" LOC = D6    | IOSTANDARD = "LVDS_25";    # 125 MHz GTX reference
+NET "clk_125m_gtx_n_i" LOC = D5    | IOSTANDARD = "LVDS_25";    # 125 MHz GTX reference
+NET "clk_125m_gtx_p_i" TNM_NET = clk_125m_gtx_p_i;
+TIMESPEC TS_clk_125m_gtx_p_i = PERIOD "clk_125m_gtx_p_i" 8 ns HIGH 50%;
+NET "clk_125m_gtx_n_i" TNM_NET = clk_125m_gtx_n_i;
+TIMESPEC TS_clk_125m_gtx_n_i = PERIOD "clk_125m_gtx_n_i" 8 ns HIGH 50%;
+
+#   ---------------------------------------------------------------------------
+#   -- SPI interface to DACs
+#   ---------------------------------------------------------------------------
+
+NET "pll25dac_cs_n_o" LOC = E11 | IOSTANDARD = LVCMOS33;
+NET "pll25dac_din_o"  LOC = F10 | IOSTANDARD = LVCMOS33;
+NET "pll25dac_sclk_o" LOC = C11 | IOSTANDARD = LVCMOS33;
+NET "pll20dac_cs_n_o" LOC = G12 | IOSTANDARD = LVCMOS33;
+NET "pll20dac_din_o"  LOC = F9  | IOSTANDARD = LVCMOS33;
+NET "pll20dac_sclk_o" LOC = G11 | IOSTANDARD = LVCMOS33;
+
+#   ---------------------------------------------------------------------------
+#   -- SFP I/O for transceiver
+#   ---------------------------------------------------------------------------
+
+NET "sfp_txp_o" LOC = F2;                                  #Bank 116
+NET "sfp_txn_o" LOC = F1;                                  #Bank 116
+NET "sfp_rxp_i" LOC = G4;                                  #Bank 116
+NET "sfp_rxn_i" LOC = G3;                                  #Bank 116
+NET "sfp_mod_def0_i" LOC = D11    | IOSTANDARD = LVCMOS33; # -- sfp detect
+NET "sfp_mod_def1_b" LOC = E12    | IOSTANDARD = LVCMOS33; # -- scl
+NET "sfp_mod_def2_b" LOC = C12    | IOSTANDARD = LVCMOS33; # -- sda
+NET "sfp_rate_select_o" LOC = D10 | IOSTANDARD = LVCMOS33;
+#NET "sfp_rate_select_1_o" LOC = D8 | IOSTANDARD = LVCMOS33;
+NET "sfp_tx_fault_i" LOC = A12    | IOSTANDARD = LVCMOS33;
+NET "sfp_tx_disable_o" LOC = B12  | IOSTANDARD = LVCMOS33;
+NET "sfp_los_i" LOC = D9         | IOSTANDARD = LVCMOS33;
+
+#NET "SFP0_LED_G_B" LOC = "A9"  | IOSTANDARD = LVCMOS33;
+#NET "SFP0_LED_Y_B" LOC = "B9";
+
+#   ---------------------------------------------------------------------------
+#   -- Onewire interface
+#   ---------------------------------------------------------------------------
+
+NET "onewire_b" LOC = AF23 | IOSTANDARD = LVCMOS33;
+
+#   ---------------------------------------------------------------------------
+#   -- UART
+#   ---------------------------------------------------------------------------
+
+#TEST & DEBUG
+# Signal uart_txd_o is an output in the design
+# Signal uart_rxd_i is an input in the design
+NET "uart_rxd_i" LOC = AE23 | IOSTANDARD = LVCMOS33;
+NET "uart_txd_o" LOC = AC21 | IOSTANDARD = LVCMOS33;
+
+#   ---------------------------------------------------------------------------
+#   -- Flash memory SPI interface
+#   ---------------------------------------------------------------------------
+
+#    flash_sclk_o : out std_logic;
+#    flash_ncs_o  : out std_logic;
+#    flash_mosi_o : out std_logic;
+#    flash_miso_i : in  std_logic;
+
+#   ---------------------------------------------------------------------------
+#   -- LED pins
+#   ---------------------------------------------------------------------------
+NET "led_act_o"     LOC = A10 | IOSTANDARD = LVCMOS33; # LED_B1 (orange): blinking indicates that packets are being transferred.
+NET "led_link_o"    LOC = B17 | IOSTANDARD = LVCMOS33; # LED_B5 (green): indicates if the link is up.
+NET "dio_led_top_o" LOC = B19 | IOSTANDARD = LVCMOS33; # LED_B3 (red) blink 1-PPS
+
+#   ---------------------------------------------------------------------------
+#   -- Digital I/O Pins
+#   -- used in this design to output WR-aligned 1-PPS (in Slave mode) and input
+#   -- 10MHz & 1-PPS from external reference (in GrandMaster mode).
+#   ---------------------------------------------------------------------------
+
+#   -- Clock input from LEMO 6 on the front panel. Used as 10MHz
+#   -- external reference input.
+NET "dio_clk_p_i" LOC = AB16  | IOSTANDARD=LVDS;  # TTL_IO_IN_P[5]
+NET "dio_clk_n_i" LOC = AC16  | IOSTANDARD=LVDS;  # TTL_IO_IN_N[5]
+
+#   -- Differential inputs, dio_p_i(N) inputs the current state of I/O (N+1) on
+#   -- the front panel.
+
+NET "dio_n_i[0]" LOC = "AB15" | IOSTANDARD=LVDS;
+NET "dio_n_i[1]" LOC = "Y12"  | IOSTANDARD=LVDS;
+NET "dio_n_i[2]" LOC = "W14"  | IOSTANDARD=LVDS;
+NET "dio_n_i[3]" LOC = "AE15" | IOSTANDARD=LVDS;
+NET "dio_n_i[4]" LOC = "Y16"  | IOSTANDARD=LVDS;
+
+NET "dio_p_i[0]" LOC = "AB14" | IOSTANDARD=LVDS;
+NET "dio_p_i[1]" LOC = "Y13"  | IOSTANDARD=LVDS;
+NET "dio_p_i[2]" LOC = "V14"  | IOSTANDARD=LVDS;
+NET "dio_p_i[3]" LOC = "AD15" | IOSTANDARD=LVDS;
+NET "dio_p_i[4]" LOC = "Y15"  | IOSTANDARD=LVDS;
+
+#   -- Differential outputs. When the I/O (N+1) is configured as output (i.e. when
+#   -- dio_oe_n_o(N) = 0), the value of dio_p_o(N) determines the logic state
+#   -- of I/O (N+1) on the front panel
+
+NET "dio_n_o[0]" LOC = "AF18" | IOSTANDARD=LVDS;
+NET "dio_n_o[1]" LOC = "AF17" | IOSTANDARD=LVDS;
+NET "dio_n_o[2]" LOC = "AF12" | IOSTANDARD=LVDS;
+NET "dio_n_o[3]" LOC = "AE10" | IOSTANDARD=LVDS;
+NET "dio_n_o[4]" LOC = "AF9"  | IOSTANDARD=LVDS;
+NET "dio_p_o[0]" LOC = "AE18" | IOSTANDARD=LVDS;
+NET "dio_p_o[1]" LOC = "AE17" | IOSTANDARD=LVDS;
+NET "dio_p_o[2]" LOC = "AE12" | IOSTANDARD=LVDS;
+NET "dio_p_o[3]" LOC = "AD10" | IOSTANDARD=LVDS;
+NET "dio_p_o[4]" LOC = "AF10" | IOSTANDARD=LVDS;
+
+#   -- Output enable. When dio_oe_n_o(N) is 0, connector (N+1) on the front
+#   -- panel is configured as an output.
+# TODO
+
+#   -- Termination enable. When dio_term_en_o(N) is 1, connector (N+1) on the front
+#   -- panel is 50-ohm terminated
+# TODO
+
+#   -- I2C interface for accessing EEPROM. Deprecated, was used in
+#   -- pre-v3.0 releases to store WRPC configuration. Now we use Flash for this.
+NET "dio_scl_b" LOC = AF22         | IOSTANDARD = LVCMOS33; # EEPROM_SCL
+NET "dio_sda_b" LOC = AF24         | IOSTANDARD = LVCMOS33; #EEPROM_SDA
